@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Navigate, useLocation } from "react-router-dom"
+import { Link, Navigate, useLocation } from "react-router-dom"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
@@ -95,6 +95,12 @@ export default function LoginPage() {
           </form>
           <p className="mt-4 text-center text-xs text-muted-foreground">
             Acceso solo para entrenadores, coordinadores y administradores del club.
+          </p>
+          <p className="mt-2 text-center text-xs text-muted-foreground">
+            ¿Eres entrenador nuevo?{" "}
+            <Link to="/registro" className="text-brand underline">
+              Crea tu cuenta
+            </Link>
           </p>
         </CardContent>
       </Card>

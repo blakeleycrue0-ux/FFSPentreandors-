@@ -1,11 +1,18 @@
 import type { LucideIcon } from "lucide-react"
-import { CalendarDays, ClipboardCheck, LayoutDashboard, Users } from "lucide-react"
+import {
+  CalendarDays,
+  ClipboardCheck,
+  LayoutDashboard,
+  ShieldCheck,
+  Users,
+} from "lucide-react"
 
 export interface NavItem {
   to: string
   label: string
   icon: LucideIcon
   end?: boolean
+  adminOnly?: boolean
 }
 
 export const navItems: NavItem[] = [
@@ -13,4 +20,5 @@ export const navItems: NavItem[] = [
   { to: "/plantilla", label: "Plantilla", icon: Users },
   { to: "/entrenamientos", label: "Entrenamientos", icon: CalendarDays },
   { to: "/asistencia", label: "Asistencia", icon: ClipboardCheck },
+  { to: "/admin", label: "Administración", icon: ShieldCheck, adminOnly: true },
 ]
