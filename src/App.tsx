@@ -3,7 +3,6 @@ import { Navigate, Route, Routes } from "react-router-dom"
 import { RequireAuth } from "@/components/auth/require-auth"
 import { AppLayout } from "@/components/layout/app-layout"
 import LoginPage from "@/pages/LoginPage"
-import SignUpPage from "@/pages/SignUpPage"
 import DashboardPage from "@/pages/DashboardPage"
 import PlantillaPage from "@/pages/PlantillaPage"
 import PlayerDetailPage from "@/pages/PlayerDetailPage"
@@ -16,7 +15,6 @@ export default function App() {
   return (
     <Routes>
       <Route path="/login" element={<LoginPage />} />
-      <Route path="/registro" element={<SignUpPage />} />
 
       <Route element={<RequireAuth />}>
         <Route element={<AppLayout />}>
