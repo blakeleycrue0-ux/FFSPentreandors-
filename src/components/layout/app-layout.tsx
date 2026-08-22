@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Menu, ShieldCheck } from "lucide-react"
+import { Menu } from "lucide-react"
 import { Outlet } from "react-router-dom"
 
 import { SidebarNav } from "@/components/layout/sidebar-nav"
@@ -13,10 +13,7 @@ import { Toaster } from "@/components/ui/sonner"
 function BrandMark() {
   return (
     <div className="flex items-center gap-2 px-4 py-4">
-      {/* Placeholder hasta que llegue el escudo del club */}
-      <div className="flex size-8 items-center justify-center rounded-lg bg-brand text-brand-foreground">
-        <ShieldCheck className="size-4" />
-      </div>
+      <img src="/crest.png" alt="Escudo FFS Santa Ponça" className="h-8 w-auto" />
       <div className="leading-tight">
         <p className="font-heading text-xs tracking-tight uppercase">
           FFS Santa Ponça
