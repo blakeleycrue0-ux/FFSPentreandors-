@@ -13,11 +13,14 @@ import { Toaster } from "@/components/ui/sonner"
 function BrandMark() {
   return (
     <div className="flex items-center gap-2 px-4 py-4">
+      {/* Placeholder hasta que llegue el escudo del club */}
       <div className="flex size-8 items-center justify-center rounded-lg bg-brand text-brand-foreground">
         <ShieldCheck className="size-4" />
       </div>
       <div className="leading-tight">
-        <p className="text-sm font-semibold">FFS Santa Ponça</p>
+        <p className="font-heading text-xs tracking-tight uppercase">
+          FFS Santa Ponça
+        </p>
         <p className="text-xs text-muted-foreground">Entrenadores</p>
       </div>
     </div>

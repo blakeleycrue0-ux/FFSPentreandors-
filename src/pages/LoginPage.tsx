@@ -46,13 +46,16 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-b from-muted/50 to-background p-4">
+    <div className="flex min-h-screen items-center justify-center bg-background p-4">
       <Card className="w-full max-w-sm">
         <CardHeader className="text-center">
-          <div className="mx-auto mb-2 flex size-12 items-center justify-center rounded-full bg-brand/10">
-            <ShieldCheck className="size-6 text-brand" />
+          {/* Placeholder hasta que llegue el escudo del club */}
+          <div className="mx-auto mb-2 flex size-14 items-center justify-center rounded-full bg-brand/10">
+            <ShieldCheck className="size-7 text-brand" />
           </div>
-          <CardTitle className="text-xl">Plataforma de entrenadores</CardTitle>
+          <CardTitle className="font-heading text-xl tracking-tight uppercase">
+            Plataforma de entrenadores
+          </CardTitle>
           <CardDescription>
             Fútbol Femenino Santa Ponça — acceso privado
           </CardDescription>
@@ -89,7 +92,7 @@ export default function LoginPage() {
                 {formError}
               </p>
             )}
-            <Button type="submit" disabled={isSubmitting} className="mt-1">
+            <Button type="submit" variant="brand" disabled={isSubmitting} className="mt-1">
               {isSubmitting ? "Entrando…" : "Entrar"}
             </Button>
           </form>
