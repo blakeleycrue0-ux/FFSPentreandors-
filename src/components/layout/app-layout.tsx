@@ -4,7 +4,6 @@ import { Outlet } from "react-router-dom"
 
 import { SidebarNav } from "@/components/layout/sidebar-nav"
 import { TeamSwitcher } from "@/components/layout/team-switcher"
-import { ThemeToggle } from "@/components/layout/theme-toggle"
 import { UserMenu } from "@/components/layout/user-menu"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet"
@@ -59,7 +58,6 @@ export function AppLayout() {
             <TeamSwitcher />
           </div>
           <div className="flex items-center gap-2">
-            <ThemeToggle />
             <UserMenu />
           </div>
         </header>

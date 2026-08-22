@@ -1,57 +1,9 @@
 @import "tailwindcss";
 
-@custom-variant dark (&:is(.dark *));
-
 :root {
   --radius: 0.5rem;
 
-  /* Modo claro — fondo crema */
-  --background: #f4f0e8;
-  --foreground: #18161c;
-  --card: #fdfbf6;
-  --card-foreground: #18161c;
-  --popover: #fdfbf6;
-  --popover-foreground: #18161c;
-  --primary: #18161c;
-  --primary-foreground: #f4f0e8;
-  --secondary: #e9e3d4;
-  --secondary-foreground: #18161c;
-  --muted: #e9e3d4;
-  --muted-foreground: #726c62;
-  --accent: #e9e3d4;
-  --accent-foreground: #18161c;
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: #fdfbf6;
-  --border: #ddd5c2;
-  --input: #ddd5c2;
-  --ring: #9d59ef;
-
-  /* Morado vivo de la web pública — el mismo tono en claro y oscuro, sin pastel. */
-  --brand: #9d59ef;
-  --brand-foreground: #ffffff;
-  --warning: oklch(0.75 0.17 75);
-  --warning-foreground: #18161c;
-  --success: oklch(0.6 0.14 152);
-  --success-foreground: #f9f5ff;
-
-  --chart-1: #9d59ef;
-  --chart-2: #6d28d9;
-  --chart-3: oklch(0.6 0.14 152);
-  --chart-4: oklch(0.75 0.17 75);
-  --chart-5: oklch(0.6 0.2 25);
-
-  --sidebar: #eee8d9;
-  --sidebar-foreground: #18161c;
-  --sidebar-primary: #9d59ef;
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #e9e3d4;
-  --sidebar-accent-foreground: #18161c;
-  --sidebar-border: #ddd5c2;
-  --sidebar-ring: #9d59ef;
-}
-
-.dark {
-  /* Modo oscuro — principal de la marca */
+  /* Único tema: negro, como la web oficial. Sin modo claro. */
   --background: #0a0a0a;
   --foreground: #f2f1ee;
   --card: #131316;
@@ -72,7 +24,7 @@
   --input: oklch(1 0 0 / 15%);
   --ring: #9d59ef;
 
-  /* Mismo morado vivo que en claro — nada de tonos lavanda/pastel. */
+  /* Morado vivo de la web pública — sin tonos lavanda/pastel. */
   --brand: #9d59ef;
   --brand-foreground: #ffffff;
   --warning: oklch(0.8 0.17 75);
@@ -150,7 +102,7 @@
     @apply border-border outline-ring/50;
   }
   html {
-    color-scheme: light dark;
+    color-scheme: dark;
   }
   body {
     @apply bg-background text-foreground;
