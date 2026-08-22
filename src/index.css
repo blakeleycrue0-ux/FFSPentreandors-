@@ -24,30 +24,30 @@
   --destructive-foreground: #fdfbf6;
   --border: #ddd5c2;
   --input: #ddd5c2;
-  --ring: #a855f7;
+  --ring: #9d59ef;
 
-  /* Morado — acento de marca. En claro se usa el tono oscuro para contraste. */
-  --brand: #7e22ce;
-  --brand-foreground: #f9f5ff;
+  /* Morado vivo de la web pública — el mismo tono en claro y oscuro, sin pastel. */
+  --brand: #9d59ef;
+  --brand-foreground: #ffffff;
   --warning: oklch(0.75 0.17 75);
   --warning-foreground: #18161c;
   --success: oklch(0.6 0.14 152);
   --success-foreground: #f9f5ff;
 
-  --chart-1: #a855f7;
-  --chart-2: #7e22ce;
+  --chart-1: #9d59ef;
+  --chart-2: #6d28d9;
   --chart-3: oklch(0.6 0.14 152);
   --chart-4: oklch(0.75 0.17 75);
   --chart-5: oklch(0.6 0.2 25);
 
   --sidebar: #eee8d9;
   --sidebar-foreground: #18161c;
-  --sidebar-primary: #7e22ce;
-  --sidebar-primary-foreground: #f9f5ff;
+  --sidebar-primary: #9d59ef;
+  --sidebar-primary-foreground: #ffffff;
   --sidebar-accent: #e9e3d4;
   --sidebar-accent-foreground: #18161c;
   --sidebar-border: #ddd5c2;
-  --sidebar-ring: #a855f7;
+  --sidebar-ring: #9d59ef;
 }
 
 .dark {
@@ -70,30 +70,30 @@
   --destructive-foreground: #0a0a0a;
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
-  --ring: #d8b4fe;
+  --ring: #9d59ef;
 
-  /* En oscuro se usa el tono claro del morado para que resalte sobre negro. */
-  --brand: #d8b4fe;
-  --brand-foreground: #3b0764;
+  /* Mismo morado vivo que en claro — nada de tonos lavanda/pastel. */
+  --brand: #9d59ef;
+  --brand-foreground: #ffffff;
   --warning: oklch(0.8 0.17 75);
   --warning-foreground: #0a0a0a;
   --success: oklch(0.72 0.14 152);
   --success-foreground: #0a0a0a;
 
-  --chart-1: #d8b4fe;
-  --chart-2: #a855f7;
+  --chart-1: #9d59ef;
+  --chart-2: #c4b5fd;
   --chart-3: oklch(0.72 0.14 152);
   --chart-4: oklch(0.8 0.17 75);
   --chart-5: oklch(0.7 0.2 25);
 
   --sidebar: #0f0f11;
   --sidebar-foreground: #f2f1ee;
-  --sidebar-primary: #d8b4fe;
-  --sidebar-primary-foreground: #3b0764;
+  --sidebar-primary: #9d59ef;
+  --sidebar-primary-foreground: #ffffff;
   --sidebar-accent: #1e1e22;
   --sidebar-accent-foreground: #f2f1ee;
   --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: #d8b4fe;
+  --sidebar-ring: #9d59ef;
 }
 
 @theme inline {
