@@ -1,14 +1,5 @@
 import { Link } from "react-router-dom"
-import {
-  AlertTriangle,
-  CalendarClock,
-  CheckCircle2,
-  Clock,
-  HeartPulse,
-  MapPin,
-  Trophy,
-  Users,
-} from "lucide-react"
+import { Clock, MapPin } from "lucide-react"
 
 import { useTeam } from "@/contexts/team-context"
 import { usePlayersQuery } from "@/hooks/use-players"
@@ -76,25 +67,21 @@ export default function DashboardPage() {
             <StatCard
               label="Jugadoras activas"
               value={activePlayers.length}
-              icon={Users}
               accent="brand"
             />
             <StatCard
               label="Lesionadas"
               value={injuredPlayers.length}
-              icon={HeartPulse}
               accent="destructive"
             />
             <StatCard
               label="Confirmadas próximo entreno"
               value={confirmed}
-              icon={CheckCircle2}
               accent="success"
             />
             <StatCard
               label="Pendientes de confirmar"
               value={pending}
-              icon={AlertTriangle}
               accent="warning"
             />
           </>
@@ -104,10 +91,7 @@ export default function DashboardPage() {
       <div className="grid gap-4 lg:grid-cols-2">
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <CalendarClock className="size-4 text-brand" />
-              Próximo entrenamiento
-            </CardTitle>
+            <CardTitle>Próximo entrenamiento</CardTitle>
             <CardDescription>Detalles y asistencia confirmada</CardDescription>
           </CardHeader>
           <CardContent>
@@ -156,10 +140,7 @@ export default function DashboardPage() {
 
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Trophy className="size-4 text-brand" />
-              Próximo partido
-            </CardTitle>
+            <CardTitle>Próximo partido</CardTitle>
             <CardDescription>Integración FFIB — próximo bloque</CardDescription>
           </CardHeader>
           <CardContent>
@@ -174,10 +155,7 @@ export default function DashboardPage() {
       {injuredPlayers.length > 0 && (
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-base">
-              <HeartPulse className="size-4 text-destructive" />
-              Jugadoras lesionadas
-            </CardTitle>
+            <CardTitle className="text-base">Jugadoras lesionadas</CardTitle>
           </CardHeader>
           <CardContent className="flex flex-wrap gap-2">
             {injuredPlayers.map((p) => (
