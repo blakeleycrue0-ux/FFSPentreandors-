@@ -3,7 +3,6 @@ import { Navigate, useLocation } from "react-router-dom"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-import { ShieldCheck } from "lucide-react"
 
 import { useAuth } from "@/contexts/auth-context"
 import { Button } from "@/components/ui/button"
@@ -49,10 +48,11 @@ export default function LoginPage() {
     <div className="flex min-h-screen items-center justify-center bg-background p-4">
       <Card className="w-full max-w-sm">
         <CardHeader className="text-center">
-          {/* Placeholder hasta que llegue el escudo del club */}
-          <div className="mx-auto mb-2 flex size-14 items-center justify-center rounded-full bg-brand/10">
-            <ShieldCheck className="size-7 text-brand" />
-          </div>
+          <img
+            src="/crest.png"
+            alt="Escudo Fútbol Femenino Santa Ponça"
+            className="mx-auto mb-2 h-20 w-auto"
+          />
           <CardTitle className="font-heading text-xl tracking-tight uppercase">
             Plataforma de entrenadores
           </CardTitle>
