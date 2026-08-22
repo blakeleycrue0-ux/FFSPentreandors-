@@ -1,3 +1,5 @@
+import type { CanvasData } from "./pitch"
+
 export type UserRole = "admin" | "coordinador" | "entrenador"
 export type PlayerStatus = "activa" | "lesionada" | "baja"
 export type DominantLeg = "diestra" | "zurda" | "ambidiestra"
@@ -89,6 +91,18 @@ export type TrainingAttendance = {
   updated_at: string
 }
 
+export type TrainingExercise = {
+  id: string
+  training_id: string
+  orden: number
+  titulo: string
+  duracion_minutos: number | null
+  objetivo: string | null
+  canvas_data: CanvasData
+  created_at: string
+  updated_at: string
+}
+
 type Insertable<Row, RequiredKeys extends keyof Row> = Partial<Row> &
   Pick<Row, RequiredKeys>
 
@@ -177,6 +191,20 @@ export type Database = {
           },
         ]
       }
+      training_exercises: {
+        Row: TrainingExercise
+        Insert: Insertable<TrainingExercise, "training_id">
+        Update: Partial<TrainingExercise>
+        Relationships: [
+          {
+            foreignKeyName: "training_exercises_training_id_fkey"
+            columns: ["training_id"]
+            isOneToOne: false
+            referencedRelation: "trainings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: Record<string, never>
     Functions: Record<string, never>
@@ -195,3 +223,5 @@ export type TrainingAttendanceUpdate = Tables["training_attendance"]["Update"]
 export type TeamInsert = Tables["teams"]["Insert"]
 export type ProfileUpdate = Tables["profiles"]["Update"]
 export type CoachTeamInsert = Tables["coach_teams"]["Insert"]
+export type TrainingExerciseInsert = Tables["training_exercises"]["Insert"]
+export type TrainingExerciseUpdate = Tables["training_exercises"]["Update"]

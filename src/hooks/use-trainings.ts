@@ -93,3 +93,69 @@ export function useDeleteTraining() {
     },
   })
 }
+
+export function useDuplicateTraining() {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: async ({
+      trainingId,
+      fecha,
+    }: {
+      trainingId: string
+      fecha: string
+    }) => {
+      const { data: original, error: fetchError } = await supabase
+        .from("trainings")
+        .select("*")
+        .eq("id", trainingId)
+        .single()
+      if (fetchError) throw fetchError
+
+      const { data: exercises, error: exercisesError } = await supabase
+        .from("training_exercises")
+        .select("*")
+        .eq("training_id", trainingId)
+        .order("orden", { ascending: true })
+      if (exercisesError) throw exercisesError
+
+      const { data: created, error: createError } = await supabase
+        .from("trainings")
+        .insert({
+          team_id: original.team_id,
+          fecha,
+          hora_inicio: original.hora_inicio,
+          hora_fin: original.hora_fin,
+          campo: original.campo,
+          objetivos: original.objetivos,
+          ejercicios: original.ejercicios,
+          material: original.material,
+          comentarios: original.comentarios,
+        })
+        .select()
+        .single()
+      if (createError) throw createError
+
+      if (exercises.length > 0) {
+        const { error: insertExercisesError } = await supabase
+          .from("training_exercises")
+          .insert(
+            exercises.map((exercise) => ({
+              training_id: created.id,
+              orden: exercise.orden,
+              titulo: exercise.titulo,
+              duracion_minutos: exercise.duracion_minutos,
+              objetivo: exercise.objetivo,
+              canvas_data: exercise.canvas_data,
+            }))
+          )
+        if (insertExercisesError) throw insertExercisesError
+      }
+
+      return created
+    },
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ["trainings", data.team_id] })
+      queryClient.invalidateQueries({ queryKey: ["next-training", data.team_id] })
+    },
+  })
+}
