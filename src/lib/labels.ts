@@ -2,6 +2,7 @@ import type {
   AbsenceReason,
   AttendanceStatus,
   DominantLeg,
+  PlayerHistoryType,
   PlayerStatus,
   UserRole,
 } from "@/types/database"
@@ -39,6 +40,21 @@ export const absenceReasonLabels: Record<AbsenceReason, string> = {
   viaje: "Viaje",
   motivo_familiar: "Motivo familiar",
   otro: "Otro",
+}
+
+export const playerHistoryTypeLabels: Record<PlayerHistoryType, string> = {
+  lesion: "Lesión",
+  sancion: "Sanción",
+  cambio_equipo: "Cambio de equipo",
+  otro: "Otro",
+}
+
+export const nivelFisicoLabels: Record<number, string> = {
+  1: "1 — Muy bajo",
+  2: "2 — Bajo",
+  3: "3 — Medio",
+  4: "4 — Alto",
+  5: "5 — Muy alto",
 }
 
 export const positionOptions = [

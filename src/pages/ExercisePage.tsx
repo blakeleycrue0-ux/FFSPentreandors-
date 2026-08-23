@@ -12,6 +12,7 @@ import { useTrainingsQuery } from "@/hooks/use-trainings"
 import { useTeam } from "@/contexts/team-context"
 import { createPitchElement } from "@/lib/pitch-defaults"
 import type { PitchElement, PitchElementType } from "@/types/pitch"
+import { ElementEditorPanel } from "@/components/planificador/element-editor-panel"
 import { PitchCanvas } from "@/components/planificador/pitch-canvas"
 import { PitchToolbar } from "@/components/planificador/pitch-toolbar"
 import { Button } from "@/components/ui/button"
@@ -35,6 +36,8 @@ export default function ExercisePage() {
 
   const [titulo, setTitulo] = useState("")
   const [duracion, setDuracion] = useState("")
+  const [jugadorasMin, setJugadorasMin] = useState("")
+  const [jugadorasMax, setJugadorasMax] = useState("")
   const [objetivo, setObjetivo] = useState("")
   const [elements, setElements] = useState<PitchElement[]>([])
   const [selectedId, setSelectedId] = useState<string | null>(null)
@@ -44,6 +47,8 @@ export default function ExercisePage() {
     if (!exercise) return
     setTitulo(exercise.titulo)
     setDuracion(exercise.duracion_minutos?.toString() ?? "")
+    setJugadorasMin(exercise.jugadoras_min?.toString() ?? "")
+    setJugadorasMax(exercise.jugadoras_max?.toString() ?? "")
     setObjetivo(exercise.objetivo ?? "")
     setElements(exercise.canvas_data.elements)
   }, [exercise])
@@ -64,6 +69,17 @@ export default function ExercisePage() {
     setSelectedId(null)
   }
 
+  const handleUpdateSelected = (updates: Partial<PitchElement>) => {
+    if (!selectedId) return
+    setElements((prev) =>
+      prev.map((el) =>
+        el.id === selectedId ? ({ ...el, ...updates } as PitchElement) : el
+      )
+    )
+  }
+
+  const selectedElement = elements.find((el) => el.id === selectedId)
+
   const handleSave = async () => {
     if (!trainingId || !exerciseId) return
     try {
@@ -71,6 +87,8 @@ export default function ExercisePage() {
         id: exerciseId,
         titulo,
         duracion_minutos: duracion ? Number(duracion) : null,
+        jugadoras_min: jugadorasMin ? Number(jugadorasMin) : null,
+        jugadoras_max: jugadorasMax ? Number(jugadorasMax) : null,
         objetivo: objetivo || null,
       })
       await saveCanvas.mutateAsync({
@@ -89,11 +107,16 @@ export default function ExercisePage() {
     setIsExporting(true)
     try {
       const { exportExerciseToPdf } = await import("@/lib/export-pdf")
+      const jugadoras =
+        jugadorasMin || jugadorasMax
+          ? `${jugadorasMin || "?"}-${jugadorasMax || "?"} jugadoras`
+          : ""
       await exportExerciseToPdf(svgRef.current, {
         equipo: training?.campo ? `Campo: ${training.campo}` : "",
         fecha: training?.fecha ?? "",
         titulo,
         duracion,
+        jugadoras,
         objetivo,
       })
     } catch (error) {
@@ -155,6 +178,26 @@ export default function ExercisePage() {
             />
           </div>
           <div className="flex flex-col gap-1.5">
+            <Label>Jugadoras necesarias</Label>
+            <div className="flex items-center gap-2">
+              <Input
+                type="number"
+                min={0}
+                value={jugadorasMin}
+                onChange={(e) => setJugadorasMin(e.target.value)}
+                placeholder="Mín."
+              />
+              <span className="text-muted-foreground">–</span>
+              <Input
+                type="number"
+                min={0}
+                value={jugadorasMax}
+                onChange={(e) => setJugadorasMax(e.target.value)}
+                placeholder="Máx."
+              />
+            </div>
+          </div>
+          <div className="flex flex-col gap-1.5">
             <Label htmlFor="objetivo">Objetivo / notas</Label>
             <Textarea
               id="objetivo"
@@ -179,10 +222,16 @@ export default function ExercisePage() {
             onSelect={setSelectedId}
             svgRef={svgRef}
           />
+          {selectedElement && (
+            <ElementEditorPanel
+              element={selectedElement}
+              onUpdate={handleUpdateSelected}
+            />
+          )}
           <p className="text-xs text-muted-foreground">
             Toca un elemento de arriba para añadirlo, y arrástralo con el dedo
-            para colocarlo en el campo. Toca un elemento del campo para
-            seleccionarlo y poder eliminarlo.
+            para colocarlo en el campo. Tócalo de nuevo para cambiar su color,
+            texto o tamaño, o para eliminarlo.
           </p>
         </div>
       </div>

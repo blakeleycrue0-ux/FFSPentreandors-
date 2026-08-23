@@ -8,6 +8,7 @@ const order: PitchElementType[] = [
   "ball",
   "pole",
   "hoop",
+  "text",
   "zone",
   "arrow",
 ]

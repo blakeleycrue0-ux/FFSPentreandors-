@@ -2,6 +2,13 @@ import { z } from "zod"
 
 import type { Player } from "@/types/database"
 
+function optionalIntString(label: string) {
+  return z
+    .string()
+    .optional()
+    .refine((v) => !v || /^\d+$/.test(v), `${label} debe ser un número`)
+}
+
 export const playerSchema = z.object({
   nombre: z.string().min(1, "El nombre es obligatorio"),
   apellidos: z.string().optional(),
@@ -13,6 +20,7 @@ export const playerSchema = z.object({
       "Dorsal entre 0 y 99"
     ),
   posicion: z.string().optional(),
+  posicion_secundaria: z.string().optional(),
   pierna_dominante: z.string().optional(),
   fecha_nacimiento: z.string().optional(),
   telefono: z.string().optional(),
@@ -29,6 +37,15 @@ export const playerSchema = z.object({
   alergias: z.string().optional(),
   estado: z.enum(["activa", "lesionada", "baja"]),
   foto_url: z.string().optional(),
+  numero_licencia: z.string().optional(),
+  dni: z.string().optional(),
+  fecha_tramitacion_ficha: z.string().optional(),
+  altura_cm: optionalIntString("La altura"),
+  peso_kg: z
+    .string()
+    .optional()
+    .refine((v) => !v || /^\d+([.,]\d{1,2})?$/.test(v), "El peso debe ser un número"),
+  nivel_fisico: z.string().optional(),
 })
 
 export type PlayerFormValues = z.infer<typeof playerSchema>
@@ -38,6 +55,7 @@ export const playerFormDefaults: PlayerFormValues = {
   apellidos: "",
   dorsal: "",
   posicion: "",
+  posicion_secundaria: "",
   pierna_dominante: "",
   fecha_nacimiento: "",
   telefono: "",
@@ -51,6 +69,12 @@ export const playerFormDefaults: PlayerFormValues = {
   alergias: "",
   estado: "activa",
   foto_url: "",
+  numero_licencia: "",
+  dni: "",
+  fecha_tramitacion_ficha: "",
+  altura_cm: "",
+  peso_kg: "",
+  nivel_fisico: "",
 }
 
 function orEmpty(value: string | null): string {
@@ -63,6 +87,7 @@ export function playerToFormValues(player: Player): PlayerFormValues {
     apellidos: player.apellidos,
     dorsal: player.dorsal === null ? "" : String(player.dorsal),
     posicion: orEmpty(player.posicion),
+    posicion_secundaria: orEmpty(player.posicion_secundaria),
     pierna_dominante: orEmpty(player.pierna_dominante),
     fecha_nacimiento: orEmpty(player.fecha_nacimiento),
     telefono: orEmpty(player.telefono),
@@ -76,6 +101,12 @@ export function playerToFormValues(player: Player): PlayerFormValues {
     alergias: orEmpty(player.alergias),
     estado: player.estado,
     foto_url: orEmpty(player.foto_url),
+    numero_licencia: orEmpty(player.numero_licencia),
+    dni: orEmpty(player.dni),
+    fecha_tramitacion_ficha: orEmpty(player.fecha_tramitacion_ficha),
+    altura_cm: player.altura_cm === null ? "" : String(player.altura_cm),
+    peso_kg: player.peso_kg === null ? "" : String(player.peso_kg),
+    nivel_fisico: player.nivel_fisico === null ? "" : String(player.nivel_fisico),
   }
 }
 
@@ -87,6 +118,7 @@ export function playerFormToPayload(
     apellidos: values.apellidos || "",
     dorsal: values.dorsal ? Number(values.dorsal) : null,
     posicion: values.posicion || null,
+    posicion_secundaria: values.posicion_secundaria || null,
     pierna_dominante:
       (values.pierna_dominante as Player["pierna_dominante"]) || null,
     fecha_nacimiento: values.fecha_nacimiento || null,
@@ -101,5 +133,11 @@ export function playerFormToPayload(
     alergias: values.alergias || null,
     estado: values.estado,
     foto_url: values.foto_url || null,
+    numero_licencia: values.numero_licencia || null,
+    dni: values.dni || null,
+    fecha_tramitacion_ficha: values.fecha_tramitacion_ficha || null,
+    altura_cm: values.altura_cm ? Number(values.altura_cm) : null,
+    peso_kg: values.peso_kg ? Number(values.peso_kg.replace(",", ".")) : null,
+    nivel_fisico: values.nivel_fisico ? Number(values.nivel_fisico) : null,
   }
 }

@@ -8,7 +8,12 @@ import {
   type PlayerFormValues,
 } from "@/lib/schemas/player-schema"
 import type { Player } from "@/types/database"
-import { dominantLegLabels, playerStatusLabels, positionOptions } from "@/lib/labels"
+import {
+  dominantLegLabels,
+  nivelFisicoLabels,
+  playerStatusLabels,
+  positionOptions,
+} from "@/lib/labels"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -51,6 +56,7 @@ export function PlayerForm({
   const estado = watch("estado")
   const posicion = watch("posicion")
   const piernaDominante = watch("pierna_dominante")
+  const nivelFisico = watch("nivel_fisico")
 
   return (
     <form
@@ -64,6 +70,9 @@ export function PlayerForm({
           </TabsTrigger>
           <TabsTrigger value="contacto" className="flex-1">
             Contacto y tutor
+          </TabsTrigger>
+          <TabsTrigger value="federativo" className="flex-1">
+            Federativo
           </TabsTrigger>
           <TabsTrigger value="salud" className="flex-1">
             Salud
@@ -199,6 +208,79 @@ export function PlayerForm({
           <div className="flex flex-col gap-1.5">
             <Label htmlFor="observaciones">Observaciones</Label>
             <Textarea id="observaciones" rows={3} {...register("observaciones")} />
+          </div>
+        </TabsContent>
+
+        <TabsContent value="federativo" className="flex flex-col gap-4 pt-4">
+          <div className="grid grid-cols-2 gap-3">
+            <div className="flex flex-col gap-1.5">
+              <Label htmlFor="numero_licencia">Número de licencia FFIB</Label>
+              <Input id="numero_licencia" {...register("numero_licencia")} />
+            </div>
+            <div className="flex flex-col gap-1.5">
+              <Label htmlFor="dni">DNI</Label>
+              <Input id="dni" {...register("dni")} />
+            </div>
+          </div>
+          <div className="flex flex-col gap-1.5">
+            <Label htmlFor="fecha_tramitacion_ficha">Fecha de tramitación de ficha</Label>
+            <Input
+              id="fecha_tramitacion_ficha"
+              type="date"
+              {...register("fecha_tramitacion_ficha")}
+            />
+          </div>
+          <div className="flex flex-col gap-1.5">
+            <Label>Posición secundaria</Label>
+            <Select
+              value={watch("posicion_secundaria") || undefined}
+              onValueChange={(v) => setValue("posicion_secundaria", v)}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Selecciona posición" />
+              </SelectTrigger>
+              <SelectContent>
+                {positionOptions.map((pos) => (
+                  <SelectItem key={pos} value={pos}>
+                    {pos}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            <div className="flex flex-col gap-1.5">
+              <Label htmlFor="altura_cm">Altura (cm)</Label>
+              <Input id="altura_cm" type="number" min={0} {...register("altura_cm")} />
+              {errors.altura_cm && (
+                <p className="text-xs text-destructive">{errors.altura_cm.message}</p>
+              )}
+            </div>
+            <div className="flex flex-col gap-1.5">
+              <Label htmlFor="peso_kg">Peso (kg)</Label>
+              <Input id="peso_kg" {...register("peso_kg")} />
+              {errors.peso_kg && (
+                <p className="text-xs text-destructive">{errors.peso_kg.message}</p>
+              )}
+            </div>
+          </div>
+          <div className="flex flex-col gap-1.5">
+            <Label>Nivel físico</Label>
+            <Select
+              value={nivelFisico || undefined}
+              onValueChange={(v) => setValue("nivel_fisico", v)}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Selecciona" />
+              </SelectTrigger>
+              <SelectContent>
+                {Object.entries(nivelFisicoLabels).map(([value, label]) => (
+                  <SelectItem key={value} value={value}>
+                    {label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
         </TabsContent>
 

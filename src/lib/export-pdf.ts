@@ -8,6 +8,7 @@ interface ExportOptions {
   fecha: string
   titulo: string
   duracion: string
+  jugadoras?: string
   objetivo: string
 }
 
@@ -26,6 +27,7 @@ export async function exportExerciseToPdf(svg: SVGSVGElement, opts: ExportOption
   const metaParts: string[] = []
   if (opts.fecha) metaParts.push(formatDateShort(opts.fecha))
   if (opts.duracion) metaParts.push(`${opts.duracion} min`)
+  if (opts.jugadoras) metaParts.push(opts.jugadoras)
   if (opts.equipo) metaParts.push(opts.equipo)
   if (metaParts.length > 0) {
     pdf.text(metaParts.join("   ·   "), margin, margin + 6)
