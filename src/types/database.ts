@@ -60,8 +60,27 @@ export type Player = {
   alergias: string | null
   fecha_alta: string
   estado: PlayerStatus
+  numero_licencia: string | null
+  dni: string | null
+  fecha_tramitacion_ficha: string | null
+  altura_cm: number | null
+  peso_kg: number | null
+  posicion_secundaria: string | null
+  nivel_fisico: number | null
   created_at: string
   updated_at: string
+}
+
+export type PlayerHistoryType = "lesion" | "sancion" | "cambio_equipo" | "otro"
+
+export type PlayerHistoryEvent = {
+  id: string
+  player_id: string
+  tipo: PlayerHistoryType
+  fecha_inicio: string
+  fecha_fin: string | null
+  descripcion: string | null
+  created_at: string
 }
 
 export type Training = {
@@ -94,9 +113,12 @@ export type TrainingAttendance = {
 export type TrainingExercise = {
   id: string
   training_id: string
+  team_id: string
   orden: number
   titulo: string
   duracion_minutos: number | null
+  jugadoras_min: number | null
+  jugadoras_max: number | null
   objetivo: string | null
   canvas_data: CanvasData
   created_at: string
@@ -203,6 +225,27 @@ export type Database = {
             referencedRelation: "trainings"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "training_exercises_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      player_history_events: {
+        Row: PlayerHistoryEvent
+        Insert: Insertable<PlayerHistoryEvent, "player_id" | "tipo">
+        Update: Partial<PlayerHistoryEvent>
+        Relationships: [
+          {
+            foreignKeyName: "player_history_events_player_id_fkey"
+            columns: ["player_id"]
+            isOneToOne: false
+            referencedRelation: "players"
+            referencedColumns: ["id"]
+          },
         ]
       }
     }
@@ -225,3 +268,4 @@ export type ProfileUpdate = Tables["profiles"]["Update"]
 export type CoachTeamInsert = Tables["coach_teams"]["Insert"]
 export type TrainingExerciseInsert = Tables["training_exercises"]["Insert"]
 export type TrainingExerciseUpdate = Tables["training_exercises"]["Update"]
+export type PlayerHistoryEventInsert = Tables["player_history_events"]["Insert"]

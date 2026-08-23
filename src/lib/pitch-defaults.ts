@@ -1,4 +1,9 @@
-import { zoneColors, type PitchElement, type PitchElementType } from "@/types/pitch"
+import {
+  DEFAULT_ELEMENT_SIZE,
+  zoneColors,
+  type PitchElement,
+  type PitchElementType,
+} from "@/types/pitch"
 
 export function createPitchElement(type: PitchElementType): PitchElement {
   const id = crypto.randomUUID()
@@ -26,8 +31,25 @@ export function createPitchElement(type: PitchElementType): PitchElement {
         y2: centerY,
       }
     case "player":
-      return { id, type, x: centerX, y: centerY, label: "X" }
+      return {
+        id,
+        type,
+        x: centerX,
+        y: centerY,
+        label: "X",
+        size: DEFAULT_ELEMENT_SIZE,
+      }
+    case "text":
+      return {
+        id,
+        type,
+        x: centerX,
+        y: centerY,
+        label: "Texto",
+        color: "#ffffff",
+        size: DEFAULT_ELEMENT_SIZE,
+      }
     default:
-      return { id, type, x: centerX, y: centerY }
+      return { id, type, x: centerX, y: centerY, size: DEFAULT_ELEMENT_SIZE }
   }
 }

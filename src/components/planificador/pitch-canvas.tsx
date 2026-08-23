@@ -48,7 +48,7 @@ function PointShape({ el }: { el: PitchPoint }) {
     case "player":
       return (
         <g>
-          <circle r={2.4} fill="#9d59ef" stroke="#ffffff" strokeWidth={0.3} />
+          <circle r={2.4} fill={el.color || "#9d59ef"} stroke="#ffffff" strokeWidth={0.3} />
           <text
             textAnchor="middle"
             dominantBaseline="central"
@@ -59,6 +59,21 @@ function PointShape({ el }: { el: PitchPoint }) {
             {el.label || "X"}
           </text>
         </g>
+      )
+    case "text":
+      return (
+        <text
+          textAnchor="middle"
+          dominantBaseline="central"
+          fontSize={3}
+          fontWeight={700}
+          fill={el.color || "#ffffff"}
+          stroke="#0a0a0a"
+          strokeWidth={0.15}
+          paintOrder="stroke"
+        >
+          {el.label || "Texto"}
+        </text>
       )
     case "cone":
       return <path d="M 0,-2.2 L 1.8,1.8 L -1.8,1.8 Z" fill="#f97316" />
@@ -239,16 +254,25 @@ export function PitchCanvas({
         }
 
         const point = el as PitchPoint
+        const scale = point.size ?? 1
         return (
           <g
             key={el.id}
             transform={`translate(${point.x}, ${point.y})`}
             onPointerDown={(e) => handlePointerDown(e, el)}
           >
-            {isSelected && (
-              <circle r={3.2} fill="none" stroke="#ffffff" strokeDasharray="0.6,0.6" strokeWidth={0.3} />
-            )}
-            <PointShape el={point} />
+            <g transform={`scale(${scale})`}>
+              {isSelected && (
+                <circle
+                  r={3.2}
+                  fill="none"
+                  stroke="#ffffff"
+                  strokeDasharray="0.6,0.6"
+                  strokeWidth={0.3 / scale}
+                />
+              )}
+              <PointShape el={point} />
+            </g>
           </g>
         )
       })}
