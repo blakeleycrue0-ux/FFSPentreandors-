@@ -111,13 +111,6 @@ export function useDuplicateTraining() {
         .single()
       if (fetchError) throw fetchError
 
-      const { data: exercises, error: exercisesError } = await supabase
-        .from("training_exercises")
-        .select("*")
-        .eq("training_id", trainingId)
-        .order("orden", { ascending: true })
-      if (exercisesError) throw exercisesError
-
       const { data: created, error: createError } = await supabase
         .from("trainings")
         .insert({
@@ -134,22 +127,6 @@ export function useDuplicateTraining() {
         .select()
         .single()
       if (createError) throw createError
-
-      if (exercises.length > 0) {
-        const { error: insertExercisesError } = await supabase
-          .from("training_exercises")
-          .insert(
-            exercises.map((exercise) => ({
-              training_id: created.id,
-              orden: exercise.orden,
-              titulo: exercise.titulo,
-              duracion_minutos: exercise.duracion_minutos,
-              objetivo: exercise.objetivo,
-              canvas_data: exercise.canvas_data,
-            }))
-          )
-        if (insertExercisesError) throw insertExercisesError
-      }
 
       return created
     },
