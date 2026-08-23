@@ -10,8 +10,6 @@ const PlantillaPage = lazy(() => import("@/pages/PlantillaPage"))
 const PlayerDetailPage = lazy(() => import("@/pages/PlayerDetailPage"))
 const EntrenamientosPage = lazy(() => import("@/pages/EntrenamientosPage"))
 const TrainingDetailPage = lazy(() => import("@/pages/TrainingDetailPage"))
-const ExercisePage = lazy(() => import("@/pages/ExercisePage"))
-const BibliotecaPage = lazy(() => import("@/pages/BibliotecaPage"))
 const AsistenciaPage = lazy(() => import("@/pages/AsistenciaPage"))
 const AdminPage = lazy(() => import("@/pages/AdminPage"))
 
@@ -67,22 +65,6 @@ export default function App() {
             element={
               <Suspense fallback={<PageFallback />}>
                 <TrainingDetailPage />
-              </Suspense>
-            }
-          />
-          <Route
-            path="entrenamientos/:trainingId/ejercicios/:exerciseId"
-            element={
-              <Suspense fallback={<PageFallback />}>
-                <ExercisePage />
-              </Suspense>
-            }
-          />
-          <Route
-            path="biblioteca"
-            element={
-              <Suspense fallback={<PageFallback />}>
-                <BibliotecaPage />
               </Suspense>
             }
           />

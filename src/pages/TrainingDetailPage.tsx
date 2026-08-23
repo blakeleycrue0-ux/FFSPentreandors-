@@ -1,14 +1,9 @@
 import { useState } from "react"
 import { Link, useNavigate, useParams } from "react-router-dom"
-import { ArrowLeft, Clock, Copy, MapPin, Plus, Trash2 } from "lucide-react"
+import { ArrowLeft, Clock, Copy, MapPin, Trash2 } from "lucide-react"
 import { toast } from "sonner"
 
 import { useTrainingAttendanceQuery } from "@/hooks/use-attendance"
-import {
-  useCreateTrainingExercise,
-  useDeleteTrainingExercise,
-  useTrainingExercisesQuery,
-} from "@/hooks/use-training-exercises"
 import {
   useDeleteTraining,
   useDuplicateTraining,
@@ -48,10 +43,6 @@ export default function TrainingDetailPage() {
   const updateTraining = useUpdateTraining()
   const deleteTraining = useDeleteTraining()
   const duplicateTraining = useDuplicateTraining()
-  const { data: exercises, isLoading: exercisesLoading } =
-    useTrainingExercisesQuery(trainingId)
-  const createExercise = useCreateTrainingExercise()
-  const deleteExercise = useDeleteTrainingExercise()
   const [editOpen, setEditOpen] = useState(false)
   const [deleteOpen, setDeleteOpen] = useState(false)
   const [duplicateOpen, setDuplicateOpen] = useState(false)
@@ -87,29 +78,6 @@ export default function TrainingDetailPage() {
       await deleteTraining.mutateAsync({ id: training.id, teamId: training.team_id })
       toast.success("Entrenamiento eliminado")
       navigate("/entrenamientos")
-    } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Error al eliminar")
-    }
-  }
-
-  const handleAddExercise = async () => {
-    if (!trainingId) return
-    try {
-      const created = await createExercise.mutateAsync({
-        training_id: trainingId,
-        orden: exercises?.length ?? 0,
-      })
-      navigate(`/entrenamientos/${trainingId}/ejercicios/${created.id}`)
-    } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Error al crear el ejercicio")
-    }
-  }
-
-  const handleDeleteExercise = async (exerciseId: string) => {
-    if (!trainingId) return
-    try {
-      await deleteExercise.mutateAsync({ id: exerciseId, trainingId })
-      toast.success("Ejercicio eliminado")
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "Error al eliminar")
     }
@@ -250,63 +218,12 @@ export default function TrainingDetailPage() {
         </Card>
       </div>
 
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0">
-          <CardTitle className="text-base">Planificador de entrenos</CardTitle>
-          <Button size="sm" onClick={handleAddExercise} disabled={createExercise.isPending}>
-            <Plus />
-            Nuevo ejercicio
-          </Button>
-        </CardHeader>
-        <CardContent>
-          {exercisesLoading ? (
-            <Skeleton className="h-24" />
-          ) : exercises && exercises.length > 0 ? (
-            <div className="flex flex-col gap-2">
-              {exercises.map((exercise, index) => (
-                <div
-                  key={exercise.id}
-                  className="flex items-center justify-between gap-3 rounded-md border p-3"
-                >
-                  <Link
-                    to={`/entrenamientos/${trainingId}/ejercicios/${exercise.id}`}
-                    className="min-w-0 flex-1"
-                  >
-                    <p className="font-medium">
-                      {index + 1}. {exercise.titulo || "Ejercicio sin título"}
-                    </p>
-                    <p className="text-sm text-muted-foreground">
-                      {exercise.duracion_minutos
-                        ? `${exercise.duracion_minutos} min`
-                        : "Sin duración"}
-                      {exercise.objetivo ? ` · ${exercise.objetivo}` : ""}
-                    </p>
-                  </Link>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="text-destructive hover:text-destructive"
-                    onClick={() => handleDeleteExercise(exercise.id)}
-                  >
-                    <Trash2 className="size-4" />
-                  </Button>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <p className="text-sm text-muted-foreground">
-              Todavía no hay ejercicios planificados para este entrenamiento.
-            </p>
-          )}
-        </CardContent>
-      </Card>
-
       <Dialog open={duplicateOpen} onOpenChange={setDuplicateOpen}>
         <DialogContent className="sm:max-w-sm">
           <DialogHeader>
             <DialogTitle>Duplicar entrenamiento</DialogTitle>
             <DialogDescription>
-              Se copiarán los ejercicios y el planificador a un entrenamiento nuevo.
+              Se creará un entrenamiento nuevo con los mismos datos en otra fecha.
             </DialogDescription>
           </DialogHeader>
           <div className="flex flex-col gap-1.5">
